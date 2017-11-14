@@ -2,9 +2,12 @@ import { Recipe } from './recipe.model';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class RecipeService {
+  recipesChanged = new Subject<Recipe[]>();
+  lastId = 2;
 
   private recipes: Recipe[] = [
     new Recipe(1, 'Panquecas', 'Ótimas para o café da manhã', 'http://culinaria.culturamix.com/blog/wp-content/gallery/receitas-de-massa-de-panqueca-1-1/Receitas-de-Massa-de-Panqueca-2.jpg',
@@ -23,8 +26,41 @@ export class RecipeService {
 
   constructor(private shoppingListService: ShoppingListService) { }
 
+  notifyChanges() {
+    this.recipesChanged.next(this.getRecipes());
+  }
+
   getRecipes() {
     return this.recipes.slice();
+  }
+
+  addRecipe(recipe: Recipe): number {
+    this.lastId += 1;
+    recipe.id = this.lastId;
+    this.recipes.push(recipe);
+    this.notifyChanges();
+    return this.lastId;
+  }
+
+  updateRecipe(id: number, recipe: Recipe) {
+    recipe.id = id;
+    this.recipes.map(
+      (value: Recipe, index: number, ar: Recipe[]) => {
+        if (value.id === id)
+          ar[index] = recipe;
+      }
+    );
+    this.notifyChanges();
+  }
+
+  deleteRecipe(id: number) {
+    this.recipes.map(
+      (value: Recipe, index: number, ar: Recipe[]) => {
+        if (value.id === id)
+          ar.splice(index, 1);
+      }
+    );
+    this.notifyChanges();
   }
 
   getRecipe(id: number) {
