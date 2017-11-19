@@ -8,11 +8,6 @@ import * as firebase from 'firebase';
 })
 export class AppComponent implements OnInit {
   title = 'app';
-  loadedPage = 'recipe';
-
-  onNavigate(page: string) {
-    this.loadedPage = page;
-  }
 
   ngOnInit() {
     firebase.initializeApp({
