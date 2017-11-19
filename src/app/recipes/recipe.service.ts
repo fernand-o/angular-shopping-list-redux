@@ -30,6 +30,11 @@ export class RecipeService {
     this.recipesChanged.next(this.getRecipes());
   }
 
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.notifyChanges();
+  }
+
   getRecipes() {
     return this.recipes.slice();
   }
