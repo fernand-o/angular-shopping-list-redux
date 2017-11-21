@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
@@ -15,8 +15,8 @@ import { CoreModule } from './core/core.module';
   ],
   imports: [
     BrowserModule,
-    HttpModule,
     CoreModule,
+    HttpClientModule,
     SharedModule,
     AppRoutingModule,
     ShoppingListModule,
