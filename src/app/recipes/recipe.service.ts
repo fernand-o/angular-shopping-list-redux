@@ -4,8 +4,6 @@ import { Subject } from 'rxjs/Subject';
 
 import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
-import { ShoppingListType } from '../shopping-list/store/shopping-list.reducers';
-import { AddIngredients } from '../shopping-list/store/shopping-list.actions';
 
 @Injectable()
 export class RecipeService {
@@ -26,8 +24,6 @@ export class RecipeService {
         new Ingredient('Tomato', 10)
       ])
   ];
-
-  constructor(private store: Store<ShoppingListType>) { }
 
   notifyChanges() {
     this.recipesChanged.next(this.getRecipes());
@@ -78,9 +74,5 @@ export class RecipeService {
           return true;
       }
     )
-  }
-
-  addIngredientsToShoppingList(ingredients: Ingredient[]) {
-    this.store.dispatch(new AddIngredients(ingredients));
   }
 }
